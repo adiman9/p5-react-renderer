@@ -1,6 +1,27 @@
 import {isFunction} from './utils';
 
-const CONTEXTS = ['noFill', 'noStroke', 'stroke', 'fill'];
+const CONTEXTS = [
+  'noFill',
+  'noStroke',
+  'stroke',
+  'fill',
+  'shearX',
+  'applyMatrix',
+  'resetMatrix',
+  'rotate',
+  'rotateX',
+  'rotateY',
+  'rotateZ',
+  'scale',
+  'shearX',
+  'shearY',
+  'translate',
+  'textAlign',
+  'textLeading',
+  'textSize',
+  'textStyle',
+  'angleMode',
+];
 
 export class Container {
   constructor(p5Instance = null, context = {}) {
