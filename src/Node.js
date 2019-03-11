@@ -33,6 +33,10 @@ export class Container {
     });
   }
 
+  setContext(context) {
+    this.context = context;
+  }
+
   draw() {
     this._applyContext();
 

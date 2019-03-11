@@ -53,7 +53,18 @@ const Canvas = ({children, size: [x, y] = [100, 100], ...props}) => {
   });
 
   useEffect(() => {
-    // TODO allow canvas props to change and update canvas accordingly Sun 10 Mar 2019 02:16:18 GMT
+    if (state.current.canvas) {
+      state.current.canvas.resizeCanvas(x, y);
+    }
+  }, [x, y]);
+
+  useEffect(() => {
+    if (state.current.container) {
+      state.current.container.setContext(props);
+    }
+  }, [props]);
+
+  useEffect(() => {
     state.current.canvas = new P5(sketch => {
       sketch.setup = () => {
         sketch.createCanvas(x, y);

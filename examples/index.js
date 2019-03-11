@@ -73,14 +73,33 @@ function Stuff() {
 
 function App() {
   const [ready, setReady] = useState(true);
+  const [size, setSize] = useState([400, 400]);
+  const [properties, setProperties] = useState({
+    background: 100,
+    fill: '#f539de',
+  });
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSize([800, 800]);
+    }, 5000);
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setProperties({
+        background: 'red',
+        fill: 'white',
+      });
+    }, 9000);
+  }, []);
 
   return (
     <>
       {ready && (
         <Canvas
-          size={[800, 800]}
-          background={100}
-          fill={'#f539de'}
+          size={size}
+          {...properties}
           onClick={() => {
             console.log('clicked canvas');
           }}
