@@ -12,6 +12,7 @@ const Canvas = ({children, size: [x, y] = [100, 100], ...props}) => {
   const [newProps, setNewProps] = useState({});
   const state = useRef({
     canvas: null,
+    container: null,
     active: false,
     subscribers: [],
     subscribe: fn => {
@@ -26,9 +27,9 @@ const Canvas = ({children, size: [x, y] = [100, 100], ...props}) => {
 
   useEffect(() => {
     // TODO allow canvas props to change and recreation of canvas accordingly Sun 10 Mar 2019 02:16:18 GMT
+    state.current.active = true;
     state.current.canvas = new P5(sketch => {
       sketch.setup = () => {
-        state.current.active = true;
         sketch.createCanvas(x, y);
         const propsCopy = {
           ...props,
@@ -53,8 +54,8 @@ const Canvas = ({children, size: [x, y] = [100, 100], ...props}) => {
 
   useEffect(() => {
     const drawLoop = () => {
-      requestAnimationFrame(drawLoop);
       if (!state.current.active) return;
+      requestAnimationFrame(drawLoop);
 
       state.current.subscribers.forEach(fn => fn(state.current));
     };
@@ -63,7 +64,9 @@ const Canvas = ({children, size: [x, y] = [100, 100], ...props}) => {
 
     return () => {
       state.current.active = false;
-      // TODO unmount the canvas Fri 08 Mar 2019 00:02:10 GMT
+      state.current.canvas.remove();
+      state.current.canvas = null;
+      state.current.container = null;
     };
   }, []);
 

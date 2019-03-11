@@ -63,17 +63,36 @@ function Stuff() {
 }
 
 function App() {
+  const [ready, setReady] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setReady(false);
+    }, 5000);
+  }, []);
+
   return (
-    <Canvas
-      size={[800, 800]}
-      background={100}
-      fill={'#f539de'}
-      onClick={() => {
-        console.log('clicked canvas');
-      }}
-    >
-      <Stuff />
-    </Canvas>
+    <>
+      {ready && (
+        <Canvas
+          size={[800, 800]}
+          background={100}
+          fill={'#f539de'}
+          onClick={() => {
+            console.log('clicked canvas');
+          }}
+        >
+          <Stuff />
+        </Canvas>
+      )}
+      <button
+        onClick={() => {
+          setReady(r => !r);
+        }}
+      >
+        Click
+      </button>
+    </>
   );
 }
 
