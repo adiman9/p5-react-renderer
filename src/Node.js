@@ -48,6 +48,9 @@ export class Container {
 
   _applyContext() {
     Object.keys(this.context).forEach(key => {
+      if (key === 'background' && this.context.noClear) {
+        return;
+      }
       if (this.p5[key] && isFunction(this.p5[key])) {
         this._applyArgs(key, 'context');
       }

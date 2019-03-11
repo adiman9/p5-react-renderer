@@ -82,6 +82,7 @@ const Canvas = ({children, size: [x, y] = [100, 100], ...props}) => {
           }
           delete propsCopy[key];
         });
+        delete propsCopy.noClear;
         setNewProps(propsCopy);
         sketch.noLoop();
       };
