@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import ReactDom from 'react-dom';
-import {Canvas, useDraw, useP5, useP5Effect} from '../src';
+import {Canvas, useDraw, useP5, useP5Effect, useP5LayoutEffect} from '../src';
 
 function Stuff() {
   const [state, setState] = useState([300, 300, 20]);
   const [img, setImg] = useState(null);
+  const [color, setColor] = useState(null);
 
   useEffect(() => {
     setTimeout(() => {
@@ -31,6 +32,12 @@ function Stuff() {
     setImg(p5img);
   }, []);
 
+  useP5LayoutEffect(p5 => {
+    const c = p5.color(100, 50, 150);
+    c.setAlpha(50);
+    setColor(c);
+  }, []);
+
   return (
     <>
       {img && <image args={[img, 0, 0]} />}
@@ -39,7 +46,7 @@ function Stuff() {
           <circle args={state} />
           <noFill>
             <rect args={[30, 20, 55, 55, 20, 15, 10, 5]} />
-            <rect args={[400, 200, 100, 100]} stroke={'yellow'} />
+            <rect args={[400, 200, 100, 100]} stroke={'yellow'} fill={color} />
           </noFill>
         </stroke>
         <rect args={[700, 400, 100, 100]} />

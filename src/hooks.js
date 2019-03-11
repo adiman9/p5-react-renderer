@@ -1,4 +1,4 @@
-import {useContext, useEffect} from 'react';
+import {useContext, useEffect, useLayoutEffect} from 'react';
 import {StateContext} from './canvas';
 
 export function useDraw(fn) {
@@ -14,4 +14,9 @@ export function useP5() {
 export function useP5Effect(fn, deps) {
   const p5 = useP5();
   useEffect(() => fn(p5), deps);
+}
+
+export function useP5LayoutEffect(fn, deps) {
+  const p5 = useP5();
+  useLayoutEffect(() => fn(p5), deps);
 }
