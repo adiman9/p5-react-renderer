@@ -24,6 +24,10 @@ function removeChild(parent, child) {
   parent.remove(child);
 }
 
+function insertBefore(parentInstance, child, beforeChild) {
+  parentInstance.add(child);
+}
+
 function createInstance(type, props, container, hostContext, fiber) {
   const instance = new Node(type, props, container);
 
@@ -76,8 +80,7 @@ const Renderer = Reconciler({
   cancelPassiveEffects,
   commitUpdate,
   prepareUpdate,
-
-  insertBefore: () => {},
+  insertBefore,
 
   getPublicRootInstance: () => {},
   getPublicInstance: instance => instance,
