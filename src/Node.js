@@ -10,14 +10,25 @@ export class Container {
     this.children = [];
   }
 
+  _applyArgs(key, prop) {
+    let obj = prop;
+    if (typeof prop === 'string') {
+      obj = this[prop];
+    }
+    if (Array.isArray(obj[key])) {
+      this.p5[key](...obj[key]);
+    } else if (isFunction(obj[key])) {
+      const res = obj[key](this.p5);
+      this.p5[key](res);
+    } else {
+      this.p5[key](obj[key]);
+    }
+  }
+
   _applyContext() {
     Object.keys(this.context).forEach(key => {
       if (this.p5[key] && isFunction(this.p5[key])) {
-        if (Array.isArray(this.context[key])) {
-          this.p5[key](...this.context[key]);
-        } else {
-          this.p5[key](this.context[key]);
-        }
+        this._applyArgs(key, 'context');
       }
     });
   }
@@ -62,11 +73,7 @@ export class Node extends Container {
     context.forEach(con => {
       Object.keys(con).forEach(key => {
         if (this.p5[key] && isFunction(this.p5[key])) {
-          if (Array.isArray(con[key])) {
-            this.p5[key](...con[key]);
-          } else {
-            this.p5[key](con[key]);
-          }
+          this._applyArgs(key, con);
         }
       });
     });
@@ -74,11 +81,7 @@ export class Node extends Container {
     // apply props
     Object.keys(this.props).forEach(key => {
       if (this.p5[key] && isFunction(this.p5[key])) {
-        if (Array.isArray(this.props[key])) {
-          this.p5[key](...this.props[key]);
-        } else {
-          this.p5[key](this.props[key]);
-        }
+        this._applyArgs(key, 'props');
       }
     });
   }
@@ -101,11 +104,8 @@ export class Node extends Container {
       // Update drawing style based on props and context
       this.applyPropsContext(context);
 
-      if (Array.isArray(this.args)) {
-        p5[this.type](...this.args);
-      } else {
-        p5[this.type](this.args);
-      }
+      this._applyArgs(this.type, {[this.type]: this.args});
+
       // reset drawing style
       p5.pop();
     }

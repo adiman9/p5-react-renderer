@@ -46,7 +46,14 @@ function Stuff() {
           <circle args={state} />
           <noFill>
             <rect args={[30, 20, 55, 55, 20, 15, 10, 5]} />
-            <rect args={[400, 200, 100, 100]} stroke={'yellow'} fill={color} />
+            <rect
+              args={[400, 200, 100, 100]}
+              stroke={p5 => {
+                p5.colorMode(p5.HSB);
+                return p5.color(255, 100, 100);
+              }}
+              fill={color}
+            />
           </noFill>
         </stroke>
         <rect args={[700, 400, 100, 100]} />
