@@ -172,7 +172,10 @@ const Canvas = ({children, size: [x, y] = [100, 100], ...props}) => {
 };
 
 Canvas.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.element,
+  ]),
   size: PropTypes.arrayOf(PropTypes.number),
 };
 
