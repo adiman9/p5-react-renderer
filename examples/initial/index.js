@@ -7,7 +7,7 @@ import {
   useP5Effect,
   useP5LayoutEffect,
   useKeyTyped,
-} from '../src';
+} from '../../src';
 
 function Stuff() {
   const [state, setState] = useState([300, 300, 20]);
