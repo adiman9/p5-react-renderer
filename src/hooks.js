@@ -10,3 +10,8 @@ export function useP5() {
   const {canvas} = useContext(StateContext);
   return canvas;
 }
+
+export function useP5Effect(fn, deps) {
+  const p5 = useP5();
+  useEffect(() => fn(p5), deps);
+}

@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import ReactDom from 'react-dom';
-import {Canvas, useDraw, useP5} from '../src';
+import {Canvas, useDraw, useP5, useP5Effect} from '../src';
 
 function Stuff() {
   const [state, setState] = useState([300, 300, 20]);
+  const [img, setImg] = useState(null);
 
   useEffect(() => {
     setTimeout(() => {
@@ -23,8 +24,16 @@ function Stuff() {
   const {width, height, mouseX} = useP5();
   console.log(width, height, mouseX);
 
+  useP5Effect(p5 => {
+    const p5img = p5.loadImage(
+      'https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png',
+    );
+    setImg(p5img);
+  }, []);
+
   return (
     <>
+      {img && <image args={[img, 0, 0]} />}
       <stroke args={'red'} strokeWeight={2}>
         <stroke args={255} strokeWeight={1}>
           <circle args={state} />
