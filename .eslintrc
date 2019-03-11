@@ -11,9 +11,7 @@
     "mocha": true,
     "jest": true,
   },
-  "plugins": [
-    "react-hooks"
-  ],
+  "plugins": [],
   "settings": {
     "react": {
       "pragma": "React",
@@ -30,7 +28,6 @@
     ],
     "no-plusplus": "off",
     "no-underscore-dangle": "off",
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "no-param-reassign": "off",
   }
 }
