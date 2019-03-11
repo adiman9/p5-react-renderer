@@ -1,9 +1,9 @@
 import {isFunction} from './utils';
 
-const CONTEXTS = ['noFill', 'noStroke'];
+const CONTEXTS = ['noFill', 'noStroke', 'stroke'];
 
 export class Container {
-  constructor(p5Instance = null, context) {
+  constructor(p5Instance = null, context = {}) {
     this.p5 = p5Instance;
     this.context = context;
     this._waitingForDraw = false;
@@ -26,7 +26,7 @@ export class Container {
     this._applyContext();
 
     this.children.forEach(child => {
-      child.draw();
+      child.draw([]);
     });
   }
 
@@ -50,16 +50,26 @@ export class Container {
 }
 
 export class Node extends Container {
-  constructor(type, {args = [], ...props}, context, container) {
-    super(container.p5, context);
+  constructor(type, {args = [], ...props}, container) {
+    super(container.p5);
     this.type = type;
     this.args = args;
     this.props = props;
     this.container = container;
   }
 
-  applyPropsContext() {
-    super._applyContext();
+  applyPropsContext(context) {
+    context.forEach(con => {
+      Object.keys(con).forEach(key => {
+        if (this.p5[key] && isFunction(this.p5[key])) {
+          if (Array.isArray(con[key])) {
+            this.p5[key](...con[key]);
+          } else {
+            this.p5[key](con[key]);
+          }
+        }
+      });
+    });
 
     // apply props
     Object.keys(this.props).forEach(key => {
@@ -77,17 +87,19 @@ export class Node extends Container {
     this.container.queueDraw();
   }
 
-  draw() {
+  draw(context) {
     const {p5} = this.container;
-    if (
-      !CONTEXTS.includes(this.type) &&
-      p5[this.type] &&
-      isFunction(p5[this.type])
-    ) {
+    if (p5[this.type] && isFunction(p5[this.type])) {
+      if (CONTEXTS.includes(this.type)) {
+        context.push({
+          [this.type]: this.args,
+          ...this.props,
+        });
+      }
       // save current drawing style
       p5.push();
       // Update drawing style based on props and context
-      this.applyPropsContext();
+      this.applyPropsContext(context);
 
       if (Array.isArray(this.args)) {
         p5[this.type](...this.args);
@@ -99,7 +111,7 @@ export class Node extends Container {
     }
 
     this.children.forEach(child => {
-      child.draw();
+      child.draw(context);
     });
   }
 }

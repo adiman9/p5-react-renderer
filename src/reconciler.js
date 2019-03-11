@@ -25,8 +25,7 @@ function removeChild(parent, child) {
 }
 
 function createInstance(type, props, container, hostContext, fiber) {
-  // TODO take into account context Sun 10 Mar 2019 21:01:27 GMT
-  const instance = new Node(type, props, hostContext, container);
+  const instance = new Node(type, props, container);
 
   return instance;
 }
@@ -56,18 +55,11 @@ function prepareUpdate(
 
   instance.args = args;
   instance.props = props;
-  instance.context = hostContext;
+  // instance.context = hostContext;
 
   // if something is returned here then commitUpdate will be called for this instance.
   // If nothing if returned then it will not be called
   return {...hostContext};
-}
-
-function getChildHostContext(parentHostContext, type) {
-  return {
-    ...parentHostContext,
-    [type]: true,
-  };
 }
 
 const Renderer = Reconciler({
@@ -84,13 +76,13 @@ const Renderer = Reconciler({
   cancelPassiveEffects,
   commitUpdate,
   prepareUpdate,
-  getChildHostContext,
 
   insertBefore: () => {},
 
   getPublicRootInstance: () => {},
   getPublicInstance: instance => instance,
-  getRootHostContext: rootContainerInstance => ({}), // Context to pass down from root
+  getRootHostContext: rootContainerInstance => [], // Context to pass down from root
+  getChildHostContext: () => [],
   createTextInstance: () => {},
   finalizeInitialChildren: (instance, type, props, rootContainerInstance) =>
     false,

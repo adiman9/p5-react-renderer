@@ -13,19 +13,28 @@ function Stuff() {
 
   // TODO more hooks to use p5 lifecycle functions like mouseMove etc Mon 11 Mar 2019 01:04:49 GMT
 
-  useDraw(() => {});
+  useDraw(() => {
+    // setState(s => {
+    //   s[0] += 1;
+    //   return [...s];
+    // });
+  });
 
   const {width, height, mouseX} = useP5();
   console.log(width, height, mouseX);
 
   return (
     <>
-      <noFill>
-        <circle args={state} />
-        <rect args={[30, 20, 55, 55, 20, 15, 10, 5]} />
-        <rect args={[400, 200, 100, 100]} />
-      </noFill>
-      <rect args={[700, 400, 100, 100]} />
+      <stroke args={'red'} strokeWeight={2}>
+        <stroke args={255} strokeWeight={1}>
+          <circle args={state} />
+          <noFill>
+            <rect args={[30, 20, 55, 55, 20, 15, 10, 5]} />
+            <rect args={[400, 200, 100, 100]} stroke={'yellow'} />
+          </noFill>
+        </stroke>
+        <rect args={[700, 400, 100, 100]} />
+      </stroke>
     </>
   );
 }
