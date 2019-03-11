@@ -1,6 +1,6 @@
 import {isFunction} from './utils';
 
-const CONTEXTS = ['noFill', 'noStroke', 'stroke'];
+const CONTEXTS = ['noFill', 'noStroke', 'stroke', 'fill'];
 
 export class Container {
   constructor(p5Instance = null, context = {}) {
@@ -111,7 +111,7 @@ export class Node extends Container {
     }
 
     this.children.forEach(child => {
-      child.draw(context);
+      child.draw([...context]);
     });
   }
 }
