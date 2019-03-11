@@ -1,6 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import ReactDom from 'react-dom';
-import {Canvas, useDraw, useP5, useP5Effect, useP5LayoutEffect} from '../src';
+import {
+  Canvas,
+  useDraw,
+  useP5,
+  useP5Effect,
+  useP5LayoutEffect,
+  useKeyTyped,
+} from '../src';
 
 function Stuff() {
   const [state, setState] = useState([300, 300, 20]);
@@ -13,7 +20,9 @@ function Stuff() {
     }, 2000);
   }, []);
 
-  // TODO more hooks to use p5 lifecycle functions like mouseMove etc Mon 11 Mar 2019 01:04:49 GMT
+  useKeyTyped(key => {
+    console.log(key);
+  });
 
   useDraw(() => {
     // setState(s => {
@@ -64,12 +73,6 @@ function Stuff() {
 
 function App() {
   const [ready, setReady] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setReady(false);
-    }, 5000);
-  }, []);
 
   return (
     <>

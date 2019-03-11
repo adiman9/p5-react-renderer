@@ -13,21 +13,47 @@ const Canvas = ({children, size: [x, y] = [100, 100], ...props}) => {
   const state = useRef({
     canvas: null,
     container: null,
-    active: false,
-    subscribers: [],
-    subscribe: fn => {
-      state.current.subscribers.push(fn);
+    subscribers: {
+      draw: [],
+      keyPressed: [],
+      keyReleased: [],
+      keyTyped: [],
+      mouseMoved: [],
+      mouseDragged: [],
+      mousePressed: [],
+      mouseReleased: [],
+      mouseClicked: [],
+      doubleClicked: [],
+      mouseWheel: [],
+      touchStarted: [],
+      touchMoved: [],
+      touchEnded: [],
+      deviceMoved: [],
+      deviceTurned: [],
+      deviceShaken: [],
+    },
+    subscribe: (event, fn) => {
+      if (!state.current.subscribers[event]) {
+        console.error('Attempting to subscribe to an unknown event:', event);
+        return () => {};
+      }
+      state.current.subscribers[event].push(fn);
+      if (event === 'draw') {
+        state.current.canvas.loop();
+      }
       return () => {
-        state.current.subscribers = state.current.subscribers.filter(
-          s => s === fn,
-        );
+        state.current.subscribers[event] = state.current.subscribers[
+          event
+        ].filter(s => s === fn);
+        if (state.current.subscribers.draw.length === 0) {
+          state.current.canvas.noLoop();
+        }
       };
     },
   });
 
   useEffect(() => {
-    // TODO allow canvas props to change and recreation of canvas accordingly Sun 10 Mar 2019 02:16:18 GMT
-    state.current.active = true;
+    // TODO allow canvas props to change and update canvas accordingly Sun 10 Mar 2019 02:16:18 GMT
     state.current.canvas = new P5(sketch => {
       sketch.setup = () => {
         sketch.createCanvas(x, y);
@@ -48,22 +74,71 @@ const Canvas = ({children, size: [x, y] = [100, 100], ...props}) => {
         setNewProps(propsCopy);
         sketch.noLoop();
       };
+
+      sketch.draw = () => {
+        state.current.subscribers.draw.forEach(fn => fn(state.current.canvas));
+      };
+      sketch.keyPressed = () => {
+        state.current.subscribers.keyPressed.forEach(fn =>
+          fn(state.current.canvas.keyCode),
+        );
+      };
+      sketch.keyReleased = () => {
+        state.current.subscribers.keyReleased.forEach(fn =>
+          fn(state.current.canvas.key, state.current.canvas.keyCode),
+        );
+      };
+      sketch.keyTyped = () => {
+        state.current.subscribers.keyTyped.forEach(fn =>
+          fn(state.current.canvas.key),
+        );
+      };
+      sketch.mouseMoved = e => {
+        state.current.subscribers.mouseMoved.forEach(fn => fn(e));
+      };
+      sketch.mouseDragged = e => {
+        state.current.subscribers.mouseDragged.forEach(fn => fn(e));
+      };
+      sketch.mousePressed = e => {
+        state.current.subscribers.mousePressed.forEach(fn => fn(e));
+      };
+      sketch.mouseReleased = e => {
+        state.current.subscribers.mouseReleased.forEach(fn => fn(e));
+      };
+      sketch.mouseClicked = e => {
+        state.current.subscribers.mouseClicked.forEach(fn => fn(e));
+      };
+      sketch.doubleClicked = e => {
+        state.current.subscribers.doubleClicked.forEach(fn => fn(e));
+      };
+      sketch.mouseWheel = e => {
+        state.current.subscribers.mouseWheel.forEach(fn => fn(e));
+      };
+      sketch.touchStarted = e => {
+        state.current.subscribers.touchStarted.forEach(fn => fn(e));
+      };
+      sketch.touchMoved = e => {
+        state.current.subscribers.touchMoved.forEach(fn => fn(e));
+      };
+      sketch.touchEnded = e => {
+        state.current.subscribers.touchEnded.forEach(fn => fn(e));
+      };
+      sketch.deviceMoved = () => {
+        state.current.subscribers.deviceMoved.forEach(fn => fn());
+      };
+      sketch.deviceTurned = () => {
+        state.current.subscribers.deviceTurned.forEach(fn => fn());
+      };
+      sketch.deviceShaken = () => {
+        state.current.subscribers.deviceShaken.forEach(fn => fn());
+      };
     }, wrapper.current);
     state.current.container = new Container(state.current.canvas, props);
   }, []);
 
   useEffect(() => {
-    const drawLoop = () => {
-      if (!state.current.active) return;
-      requestAnimationFrame(drawLoop);
-
-      state.current.subscribers.forEach(fn => fn(state.current));
-    };
-
-    requestAnimationFrame(drawLoop);
-
+    // Unmounting the p5 canvas
     return () => {
-      state.current.active = false;
       state.current.canvas.remove();
       state.current.canvas = null;
       state.current.container = null;
@@ -81,7 +156,7 @@ const Canvas = ({children, size: [x, y] = [100, 100], ...props}) => {
     });
   });
 
-  return <div ref={wrapper} {...newProps} />;
+  return <div ref={wrapper} {...newProps} style={{display: 'inline-block'}} />;
 };
 
 Canvas.propTypes = {
