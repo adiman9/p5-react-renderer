@@ -48,7 +48,7 @@ P5 methods can also be given as props to elements.
 
 Eg.
 
-```jsxx
+```jsx
 <circle args={[100, 100, 10]} fill="white" />
 
 // or
@@ -156,7 +156,7 @@ state the needs to update on every draw with react, especially if there are many
 instances of a given object on the canvas all with their own state that updates
 on every draw cycle.
 
-_Not advisable to do the following_:
+### Not advisable to do the following:
 
 ```jsx
 import React, {useState} from 'react';
@@ -191,7 +191,7 @@ javascript objects and call the `useDraw` hook only once in the top level of
 your app and recalculate state of the raw javascript objects there and use those
 raw javascript objects to pass props to components.
 
-_Do this instead_
+### Do this instead
 
 ```jsx
 import React, {useRef, useEffect} from 'react';
