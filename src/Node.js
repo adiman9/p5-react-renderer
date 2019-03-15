@@ -40,7 +40,11 @@ export class Container {
       this.p5[key](...obj[key]);
     } else if (isFunction(obj[key])) {
       const res = obj[key](this.p5);
-      this.p5[key](res);
+      if (Array.isArray(res)) {
+        this.p5[key](...res);
+      } else {
+        this.p5[key](res);
+      }
     } else {
       this.p5[key](obj[key]);
     }
