@@ -15,7 +15,7 @@ element in an `args` prop.
 
 Eg.
 
-```js
+```jsx
 // This p5 code
 circle(100, 100, 10);
 
@@ -32,7 +32,7 @@ the arguments. The difference being that the function will be given the p5
 object as an argument. This allows you access to the p5 constants and methods
 etc.
 
-```js
+```jsx
 // These are equivalent
 <circle args={[100, 100, 10]} />
 
@@ -48,7 +48,7 @@ P5 methods can also be given as props to elements.
 
 Eg.
 
-```js
+```jsxx
 <circle args={[100, 100, 10]} fill="white" />
 
 // or
@@ -67,7 +67,7 @@ elements will inherit the behaviour.
 
 Eg.
 
-```js
+```jsx
 <fill args="red" colorMode={p5 => p5.RGB}>
   // Everything in here will have a red fill and any color // work in components
   will use RGB color mode
@@ -87,7 +87,7 @@ Eg.
 
 Here is a minimal example:
 
-```js
+```jsx
 import React from 'react';
 import ReactDom from 'react-dom';
 import { Canvas } from 'p5-react-renderer';
@@ -137,7 +137,7 @@ the canvas every time something changes. If you do not want to clear the canvas
 on every draw loop you should provide the `Canvas` component with a `noClear`
 prop:
 
-```js
+```jsx
 // This will clear and redraw the canvas on every loop
 <Canvas>
   // components
@@ -158,7 +158,7 @@ on every draw cycle.
 
 _Not advisable to do the following_:
 
-```js
+```jsx
 import React, {useState} from 'react';
 import {Vector} from 'p5';
 import {useDraw} from 'p5-react-renderer';
@@ -193,7 +193,7 @@ raw javascript objects to pass props to components.
 
 _Do this instead_
 
-```js
+```jsx
 import React, {useRef, useEffect} from 'react';
 import {Vector} from 'p5';
 import {useDraw} from 'p5-react-renderer';
