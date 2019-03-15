@@ -7,7 +7,39 @@ declarative style.
 Writing p5 sketches this way opens up the door for reusable components and
 cleaner code, even when the sketches grow in complexity.
 
+## Getting started
+
+Install it via npm or yarn:
+
+```bash
+npm install p5-react-renderer
+
+yarn add p5-react-renderer
+```
+
 ## Usage
+
+The core of this library is a React component called `Canvas`. This will
+instantiate a p5 canvas on the page and allow you to use p5 methods as jsx
+elements within it.
+
+Eg.
+
+```jsx
+import React from 'react';
+import ReactDom from 'react-dom';
+import {Canvas} from 'p5-react-renderer';
+
+function App() {
+  return (
+    <Canvas>
+      <circle args={[100, 100, 10]} />
+    </Canvas>
+  );
+}
+
+ReactDom.render(<App />, document.getElementById('app'));
+```
 
 At its core all p5 methods can now be used as jsx elements and props to jsx
 elements. The arguments to a p5 method now become an array passed to the jsx
