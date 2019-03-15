@@ -1,4 +1,4 @@
-import {useContext, useEffect, useLayoutEffect} from 'react';
+import {useContext, useEffect, useLayoutEffect, useState} from 'react';
 import {StateContext} from './canvas';
 
 export function useP5Event(event, fn) {
@@ -7,8 +7,14 @@ export function useP5Event(event, fn) {
 }
 
 export function useDraw(fn) {
-  useP5Event('draw', fn);
+  const [frame, setFrames] = useState(0); // eslint-disable-line no-unused-vars
+  useP5Event('draw', p5 => {
+    fn(p5);
+    setFrames(f => f + 1);
+  });
 }
+
+// TODO anyway of getting useP5 etc to work in the top level app component Tue 12 Mar 2019 01:11:31 GMT
 
 export function useP5() {
   const {canvas} = useContext(StateContext);
