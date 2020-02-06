@@ -7,7 +7,7 @@ import {
   useP5Effect,
   useP5LayoutEffect,
   useKeyTyped,
-} from '../../src';
+} from 'p5-react-renderer';
 
 function Stuff() {
   const [state, setState] = useState([300, 300, 20]);
@@ -102,6 +102,9 @@ function App() {
           {...properties}
           onClick={() => {
             console.log('clicked canvas');
+          }}
+          preload={() => {
+            console.log('before all');
           }}
         >
           <Stuff />

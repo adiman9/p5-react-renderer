@@ -1,8 +1,8 @@
 import React, {useRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
+import {useP5, useDraw} from 'p5-react-renderer';
 import Particle from './Particle';
 import FlowField from './FlowField';
-import {useP5, useDraw} from '../../src';
 
 export default function ParticleSystem({num}) {
   const scale = 10;

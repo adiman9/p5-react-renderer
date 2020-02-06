@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import {Canvas} from '../../src';
+import {Canvas} from 'p5-react-renderer';
 import ParticleSystem from './ParticleSystem';
 
 function App() {

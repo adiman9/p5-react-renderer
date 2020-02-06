@@ -8,11 +8,17 @@
     "start": "parcel index.html"
   },
   "dependencies": {
+    "@babel/plugin-syntax-async-generators": "^7.8.4",
+    "p5": "^0.7.3",
+    "p5-react-renderer": "^0.0.2",
+    "prop-types": "^15.7.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.3.4",
+    "@babel/core": "^7.0.0-0",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-react": "^7.8.3",
     "parcel-bundler": "^1.12.0"
   }
 }
