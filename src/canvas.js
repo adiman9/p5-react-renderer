@@ -7,7 +7,7 @@ import {isFunction} from './utils';
 
 export const StateContext = React.createContext();
 
-const Canvas = ({children, size: [x, y] = [100, 100], ...props}) => {
+const Canvas = ({children, size: [x, y] = [100, 100], preload, ...props}) => {
   const wrapper = useRef(null);
   const [newProps, setNewProps] = useState({});
   const state = useRef({
@@ -66,6 +66,11 @@ const Canvas = ({children, size: [x, y] = [100, 100], ...props}) => {
 
   useEffect(() => {
     state.current.canvas = new P5(sketch => {
+      sketch.preload = () => {
+        if (preload) {
+          preload(sketch);
+        }
+      };
       sketch.setup = () => {
         sketch.createCanvas(x, y);
         const propsCopy = {
@@ -177,6 +182,7 @@ Canvas.propTypes = {
     PropTypes.element,
   ]),
   size: PropTypes.arrayOf(PropTypes.number),
+  preload: PropTypes.func,
 };
 
 export default Canvas;
