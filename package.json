@@ -1,6 +1,6 @@
 {
   "name": "p5-react-renderer",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "React-fiber renderer for p5.js",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
