@@ -189,7 +189,7 @@ Canvas.propTypes = {
   ]),
   size: PropTypes.arrayOf(PropTypes.number),
   preload: PropTypes.func,
-  renderer: PropTypes.onOF(['p2d', 'webgl']),
+  renderer: PropTypes.oneOf(['p2d', 'webgl']),
 };
 
 export default Canvas;
