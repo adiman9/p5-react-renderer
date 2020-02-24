@@ -56,6 +56,24 @@ const Canvas = ({
         }
       };
     },
+    unsubscribe: (event, fn) => {
+      if (!state.current.subscribers[event]) {
+        console.error('Attempting to unsubscribe to an unknown event:', event);
+        return false;
+      }
+      const index = state.current.subscribers[event].indexOf(fn);
+
+      if (index === -1) {
+        console.error(
+          'Attempting to unsubscribe a non existent callback in this event:',
+          event,
+        );
+        return false;
+      }
+
+      state.current.subscribers[event].splice(index, 1);
+      return true;
+    },
   });
 
   useEffect(() => {

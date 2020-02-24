@@ -2,8 +2,11 @@ import {useContext, useEffect, useLayoutEffect, useState} from 'react';
 import {StateContext} from './canvas';
 
 export function useP5Event(event, fn) {
-  const {subscribe} = useContext(StateContext);
-  useEffect(() => subscribe(event, fn), []);
+  const {subscribe, unsubscribe} = useContext(StateContext);
+  useEffect(() => {
+    subscribe(event, fn);
+    return () => unsubscribe(event, fn);
+  }, []);
 }
 
 export function useDraw(fn) {
